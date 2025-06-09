@@ -1,22 +1,19 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PoolObject : MonoBehaviour
+public class PoolObject : MonoBehaviour
 {
-    public static event Action<PoolObject> OnObjectSpawned;
-    public static event Action<PoolObject> OnObjectDespawned;
-
-    public virtual void OnSpawn()
+   
+    public virtual void OnActivate()
     {
         gameObject.SetActive(true);
-        OnObjectSpawned?.Invoke(this);
     }
 
-    public virtual void OnDespawn()
+  
+    public virtual void OnDeactivate()
     {
         gameObject.SetActive(false);
-        OnObjectDespawned?.Invoke(this);
     }
-
-    public abstract void ReturnToPool();
 }
+
+

@@ -20,5 +20,9 @@ public class PlayerDuplicator : MonoBehaviour
         {
             Duplicate(5);
         }
+        else if (other.CompareTag("Enemy"))
+        {
+            Destroy(gameObject);
+        }
     }
 }

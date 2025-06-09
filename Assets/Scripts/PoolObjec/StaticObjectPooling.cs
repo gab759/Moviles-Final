@@ -1,51 +1,42 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class StaticObjectPooling : MonoBehaviour
 {
-    public PoolConfigSO config;
-
-    private Queue<PoolObject> pool = new Queue<PoolObject>();
-
-    public static event Action<PoolObject> OnObjectTakenFromPool;
-    public static event Action<PoolObject> OnObjectReturnedToPool;
+    [SerializeField] private PoolConfigSO config;
+    private List<PoolObject> pool = new List<PoolObject>();
 
     private void Awake()
     {
-        if (config == null)
-        {
-            Debug.LogError("PoolConfigSO no asignado en StaticObjectPooling.");
-            return;
-        }
-
         for (int i = 0; i < config.initialSize; i++)
         {
             PoolObject obj = Instantiate(config.prefab, transform);
-            obj.OnDespawn();
-            obj.GetComponent<PoolObjectStatic>().Initialize(this);
-            pool.Enqueue(obj);
+            obj.OnDeactivate();
+            pool.Add(obj);
         }
     }
 
-    public PoolObject GetFromPool()
+    public PoolObject GetObject()
     {
-        if (pool.Count == 0)
+        foreach (var obj in pool)
         {
-            Debug.LogWarning("El pool estático está vacío.");
-            return null;
+            if (!obj.gameObject.activeInHierarchy)
+            {
+                obj.OnActivate();
+                return obj;
+            }
         }
 
-        PoolObject obj = pool.Dequeue();
-        obj.OnSpawn();
-        OnObjectTakenFromPool?.Invoke(obj);
-        return obj;
+        Debug.Log("No hay objetos inactivos disponibles en el pool estático.");
+        return null;
     }
 
-    public void ReturnToPool(PoolObject obj)
+    public void ReturnObject(PoolObject obj)
     {
-        obj.OnDespawn();
-        pool.Enqueue(obj);
-        OnObjectReturnedToPool?.Invoke(obj);
+        if (pool.Contains(obj))
+            obj.OnDeactivate();
+        else
+            Debug.LogWarning("Objeto no pertenece a este pool.");
     }
 }
+
