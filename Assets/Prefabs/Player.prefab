@@ -152,3 +152,6 @@ MonoBehaviour:
   moveSpeed: 5
   score: 0
   objectPool: {fileID: 0}
+  targetObject: {fileID: 0}
+  spawnRadius: 1
+  spawnDistance: 0.05

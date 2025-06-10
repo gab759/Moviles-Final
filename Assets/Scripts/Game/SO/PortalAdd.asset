@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3514dbb323fbc874bb3b7ce00e3361f9, type: 3}
   m_Name: PortalAdd
   m_EditorClassIdentifier: 
-  number: 0
+  number: 45
   portalType: 0
+  isRightPortal: 1

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class PlayerController : PoolObject
 {
@@ -19,17 +20,17 @@ public class PlayerController : PoolObject
     private float lastSpawnTime = 0f;
     private bool canSpawnCubes = false;
 
-    private void Start()
+    private List<GameObject> clones = new List<GameObject>();
+
+    public void Init()
     {
         if (objectPool == null)
-        {
             Debug.LogError("El objeto ObjectPool no está asignado en PlayerController.");
-        }
 
         if (targetObject == null)
-        {
             Debug.LogError("El GameObject objetivo no está asignado.");
-        }
+
+        clones.Add(gameObject); // mover aquí
     }
 
     private void Update()
@@ -38,7 +39,7 @@ public class PlayerController : PoolObject
 
         if (canSpawnCubes && Time.time - lastSpawnTime > 0.5f)
         {
-            GenerateCubes(1);  // 
+            GenerateCubes(1);
             lastSpawnTime = Time.time;
         }
     }
@@ -58,6 +59,7 @@ public class PlayerController : PoolObject
                     touchEndPos = touch.position;
                     touchDelta = touchEndPos - touchStartPos;
 
+                    // Mover solo el jugador principal
                     transform.position = new Vector3(
                         Mathf.Clamp(transform.position.x + touchDelta.x * moveSpeed * Time.deltaTime, -5f, 5f),
                         transform.position.y,
@@ -69,10 +71,12 @@ public class PlayerController : PoolObject
             }
         }
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
         {
+            // Podrías reemplazar el jugador aquí si quieres
             Destroy(gameObject);
         }
     }
@@ -84,10 +88,15 @@ public class PlayerController : PoolObject
         Debug.Log("Nuevo puntaje (Suma): " + score);
     }
 
-    public void MultiplyScore(int amount)
+    public void MultiplyScore(int factor)
     {
-        score *= amount;
-        GenerateCubes(amount);
+        int currentCount = clones.Count;
+        int newCount = currentCount * factor;
+        int cubesToAdd = newCount - currentCount;
+
+        score = newCount;
+        GenerateCubes(cubesToAdd);
+
         Debug.Log("Nuevo puntaje (Multiplicación): " + score);
     }
 
@@ -99,6 +108,8 @@ public class PlayerController : PoolObject
 
             PoolObject newCube = objectPool.GetObject();
             newCube.transform.position = spawnPosition;
+
+            clones.Add(newCube.gameObject);
         }
     }
 
@@ -133,5 +144,4 @@ public class PlayerController : PoolObject
     {
         canSpawnCubes = false;
     }
-
 }
