@@ -1,49 +1,46 @@
 using UnityEngine;
-using TMPro;  // Asegúrate de importar TMP
+using TMPro;
 
 public class Portal : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private PortalSO portalData;  // Referencia al SO que contiene los datos del portal
+    [SerializeField] private PortalSO portalData;
 
-    private Collider portalCollider;  // Referencia al Collider para desactivarlo
-    private TextMeshProUGUI portalText;  // Referencia al componente TextMeshProUGUI del portal
+    private Collider portalCollider;
+    private TextMeshProUGUI portalText;
 
     private void Start()
     {
-        portalData.GeneratePortal();  // Genera el número del portal
-        portalCollider = GetComponent<Collider>();  // Guardamos la referencia del Collider
+        portalData.GeneratePortal();
+        portalCollider = GetComponent<Collider>();
 
-        // Intentamos obtener el componente TextMeshProUGUI en los hijos del portal
         portalText = GetComponentInChildren<TextMeshProUGUI>();
 
-        // Actualizamos el texto del portal con el número generado y su tipo de operación
         UpdatePortalText();
     }
 
     private void Update()
     {
-        transform.Translate(Vector3.back * moveSpeed * Time.deltaTime);  // Mueve el portal hacia atrás
+        transform.Translate(Vector3.back * moveSpeed * Time.deltaTime);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))  // Si colisiona con el jugador
+        if (other.CompareTag("Player"))
         {
             ApplyPortalEffect(other.gameObject);
 
-            if (portalData.isRightPortal)  // Si es el portal derecho
+            if (portalData.isRightPortal)
             {
-                Destroy(gameObject);  // Destruye el portal derecho
+                Destroy(gameObject);
             }
-            else  // Si es el portal izquierdo
+            else
             {
-                DisableLeftPortalCollision();  // Desactiva la colisión del portal izquierdo
+                DisableLeftPortalCollision();
             }
         }
     }
 
-    // Aplica la operación de suma o multiplicación
     private void ApplyPortalEffect(GameObject player)
     {
         if (portalData.portalType == PortalSO.PortalType.Suma)
@@ -56,22 +53,20 @@ public class Portal : MonoBehaviour
         }
     }
 
-    // Desactiva la colisión del portal izquierdo
     private void DisableLeftPortalCollision()
     {
         if (portalCollider != null)
         {
-            portalCollider.enabled = false;  // Desactiva la colisión pero mantiene el portal visible
+            portalCollider.enabled = false;
         }
     }
 
-    // Actualiza el texto del portal con el número generado y su operación
     private void UpdatePortalText()
     {
         if (portalText != null)
         {
             string operationSymbol = portalData.portalType == PortalSO.PortalType.Suma ? "+" : "X";
-            portalText.text = $"{operationSymbol} {portalData.number}";  // Actualiza el texto
+            portalText.text = $"{operationSymbol} {portalData.number}";
         }
     }
 }

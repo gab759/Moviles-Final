@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3514dbb323fbc874bb3b7ce00e3361f9, type: 3}
   m_Name: PortalMultiply
   m_EditorClassIdentifier: 
-  number: 4
+  number: 1
   portalType: 1
+  isRightPortal: 1

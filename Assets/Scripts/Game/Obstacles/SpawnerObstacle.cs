@@ -13,7 +13,7 @@ public class SpawnerObstacle : MonoBehaviour
 
     [Header("Base")]
     [SerializeField] private GameObject basePrefab;
-    [SerializeField] private float baseYOffset = -0.5f; // Cuánto más abajo colocar la base respecto al obstáculo
+    [SerializeField] private float baseYOffset = -0.5f;
 
     [Header("Timing")]
     [SerializeField] private float delayBetweenSpawns = 0.05f;
@@ -27,10 +27,8 @@ public class SpawnerObstacle : MonoBehaviour
 
     private void Start()
     {
-        // Instancia una vez la base debajo de cada punto
         SpawnBaseTiles();
 
-        // Comienza el loop de obstáculos
         spawnRoutine = StartCoroutine(SpawnObstaclesLoop());
     }
 
