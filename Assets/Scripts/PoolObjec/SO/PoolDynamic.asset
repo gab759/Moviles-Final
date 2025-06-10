@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90f381940e45deb4093b6bb813f7d1c9, type: 3}
-  m_Name: PoolConfig
+  m_Name: PoolDynamic
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1814974054421181853, guid: 41d0d35551901fa429b30b8bbc99f1c8, type: 3}
-  initialSize: 66
+  prefab: {fileID: 8494591232254265357, guid: 2c45d295a02768d43a2cf3b854f2b2b7, type: 3}
+  initialSize: 60
