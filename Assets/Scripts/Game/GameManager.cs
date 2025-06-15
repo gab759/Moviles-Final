@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
-{
+{/*
     [Header("Pool Settings")]
     [SerializeField] private DynamicObjectPooling objectPool;
 
@@ -18,5 +18,5 @@ public class GameManager : MonoBehaviour
 
         playerController.SetTargetObject(targetObject);
         playerController.Init();
-    }
+    }*/
 }

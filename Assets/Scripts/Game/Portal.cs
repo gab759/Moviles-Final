@@ -1,72 +1,50 @@
 using UnityEngine;
-using TMPro;
-
+using TMPro; 
 public class Portal : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private PortalSO portalData;
+    [Header("Configuración (Desde el Proyecto)")]
+    [SerializeField] private PortalSO portalData; 
 
-    private Collider portalCollider;
-    private TextMeshProUGUI portalText;
+    [Header("Componentes (Desde la Escena)")]
+    [SerializeField] private TextMeshProUGUI textoDelPortal; 
 
-    private void Start()
+    private int numeroActual;
+    private PortalSO.PortalType tipoActual;
+
+    void Awake()
     {
-        portalData.GeneratePortal();
-        portalCollider = GetComponent<Collider>();
-
-        portalText = GetComponentInChildren<TextMeshProUGUI>();
-
-        UpdatePortalText();
+        ConfigurarPortal();
     }
 
-    private void Update()
+    private void ConfigurarPortal()
     {
-        transform.Translate(Vector3.back * moveSpeed * Time.deltaTime);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
+        if (portalData == null)
         {
-            ApplyPortalEffect(other.gameObject);
+            Debug.LogError("¡No hay PortalSO asignado en este portal!", this);
+            return;
+        }
 
-            if (portalData.isRightPortal)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                DisableLeftPortalCollision();
-            }
+        tipoActual = portalData.portalType;
+
+        if (tipoActual == PortalSO.PortalType.Suma)
+        {
+            numeroActual = Random.Range(1, 11) * 5; 
+            textoDelPortal.text = "+" + numeroActual;
+        }
+        else if (tipoActual == PortalSO.PortalType.Multiplicacion)
+        {
+            numeroActual = Random.Range(2, 5);
+            textoDelPortal.text = "x" + numeroActual;
         }
     }
 
-    private void ApplyPortalEffect(GameObject player)
+    public int GetNumero()
     {
-        if (portalData.portalType == PortalSO.PortalType.Suma)
-        {
-            player.GetComponent<PlayerController>().IncreaseScore(portalData.number);
-        }
-        else if (portalData.portalType == PortalSO.PortalType.Multiplicacion)
-        {
-            player.GetComponent<PlayerController>().MultiplyScore(portalData.number);
-        }
+        return numeroActual;
     }
 
-    private void DisableLeftPortalCollision()
+    public PortalSO.PortalType GetTipo()
     {
-        if (portalCollider != null)
-        {
-            portalCollider.enabled = false;
-        }
-    }
-
-    private void UpdatePortalText()
-    {
-        if (portalText != null)
-        {
-            string operationSymbol = portalData.portalType == PortalSO.PortalType.Suma ? "+" : "X";
-            portalText.text = $"{operationSymbol} {portalData.number}";
-        }
+        return tipoActual;
     }
 }

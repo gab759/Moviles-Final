@@ -8,15 +8,5 @@ public class PortalSO : ScriptableObject
     public PortalType portalType;
     public bool isRightPortal = false;
 
-    public void GeneratePortal()
-    {
-        if (portalType == PortalType.Suma)
-        {
-            number = Random.Range(1, 11) * 5;
-        }
-        else if (portalType == PortalType.Multiplicacion)
-        {
-            number = Random.Range(1, 6);
-        }
-    }
+  
 }
