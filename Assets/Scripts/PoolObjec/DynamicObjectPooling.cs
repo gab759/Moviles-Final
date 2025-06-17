@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class DynamicObjectPooling : MonoBehaviour
+public class DynamicObjectPooling<T> : MonoBehaviour where T : PoolObject
 {
     [SerializeField] private PoolConfigSO poolConfigSO;
-    private Queue<PoolObject> poolQueue = new Queue<PoolObject>();
+    private Queue<T> poolQueue = new Queue<T>();
 
     private void Awake()
     {
@@ -21,29 +21,30 @@ public class DynamicObjectPooling : MonoBehaviour
         }
     }
 
-    private PoolObject AddObjectToPool()
+    private T AddObjectToPool()
     {
-        PoolObject obj = Instantiate(poolConfigSO.prefab, transform);
+        T obj = Instantiate(poolConfigSO.prefab as T, transform);
         obj.OnDeactivate();
         poolQueue.Enqueue(obj);
         return obj;
     }
 
-    public PoolObject GetObject()
+    public T GetObject()
     {
         if (poolQueue.Count > 0)
         {
-            PoolObject obj = poolQueue.Dequeue();
+            T obj = poolQueue.Dequeue();
             obj.OnActivate();
             return obj;
         }
-        Debug.Log("Te acabaste los objetos inactivos creando mas...");
-        PoolObject newObj = AddObjectToPool();
+
+        Debug.Log("Creando un objeto nuevo porque el pool está vacío...");
+        T newObj = AddObjectToPool();
         newObj.OnActivate();
         return newObj;
     }
 
-    public void ReturnObject(PoolObject obj)
+    public void ReturnObject(T obj)
     {
         obj.OnDeactivate();
         poolQueue.Enqueue(obj);
