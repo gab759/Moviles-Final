@@ -7,6 +7,8 @@ TagManager:
   - Portal
   - Enemy
   - Destroy
+  - Moneda
+  - Jefe
   layers:
   - Default
   - TransparentFX
