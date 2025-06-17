@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90f381940e45deb4093b6bb813f7d1c9, type: 3}
-  m_Name: Oleada_EnemigoCentral
+  m_Script: {fileID: 11500000, guid: 8d86d19b097f7bd4b83586104e8aeed7, type: 3}
+  m_Name: NuevoJefeSO
   m_EditorClassIdentifier: 
-  prefab: {fileID: -3136128764362007919, guid: 058ec88abf7889c4399dd408f5e7d478, type: 3}
-  initialSize: 2
+  vida: 30

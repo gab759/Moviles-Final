@@ -20,15 +20,11 @@ public class Hamburguesa : PoolObject
     {
         if (other.CompareTag("Enemy"))
         {
+            // La hamburguesa no se desactiva a sí misma.
+            // Simplemente le avisa a su jefe para que él tome las decisiones.
             if (crowdController != null)
             {
-                // "Jefe, me han dado. Sácame de la lista."
                 crowdController.RemoverHamburguesa(this);
-            }
-            else
-            {
-                // Si no tiene jefe, simplemente se desactiva
-                gameObject.SetActive(false);
             }
         }
     }

@@ -11,8 +11,12 @@ public class GeneradorDeNiveles : MonoBehaviour
 
     [Tooltip("Cuántos segundos esperar entre la generación de una oleada y la siguiente.")]
     [SerializeField] private float tiempoEntreOleadas = 4f;
-
+    
+    [Header("Configuración del Jefe")]
+    [SerializeField] private JefePool poolDelJefe; // El pool específico para el jefe
+    [SerializeField] private int oleadasParaElJefe = 10;
     private float contadorDeTiempo;
+    private int contadorDeOleadas;
 
     void Start()
     {
@@ -25,26 +29,54 @@ public class GeneradorDeNiveles : MonoBehaviour
 
         if (contadorDeTiempo <= 0)
         {
-            GenerarOleada();
+            IntentarGenerarOleada();
             contadorDeTiempo = tiempoEntreOleadas;
         }
     }
 
-    private void GenerarOleada()
+    private void IntentarGenerarOleada()
     {
-        if (listaDePoolsDeOleadas.Length == 0 || puntoDeSpawn == null)
+        contadorDeOleadas++; // Sumamos una oleada generada
+
+        // 1. ¿Es hora de generar al jefe?
+        if (contadorDeOleadas >= oleadasParaElJefe)
         {
-            Debug.LogWarning("El Generador de Niveles no tiene pools o un punto de spawn configurado.");
-            return;
+            GenerarJefe();
+            contadorDeOleadas = 0; // Reiniciamos el contador para la próxima vez
         }
+        else
+        {
+            // 2. Si no, generamos una oleada normal
+            GenerarOleadaNormal();
+        }
+    }
+    private void GenerarOleadaNormal()
+    {
+        if (listaDePoolsDeOleadas.Length == 0) return;
 
         int indiceAleatorio = Random.Range(0, listaDePoolsDeOleadas.Length);
         OleadaPool poolElegido = listaDePoolsDeOleadas[indiceAleatorio];
-
         Oleada nuevaOleada = poolElegido.GetObject();
-        if (nuevaOleada == null) return; 
 
-        nuevaOleada.transform.position = puntoDeSpawn.position;
-        nuevaOleada.transform.rotation = puntoDeSpawn.rotation;
+        if (nuevaOleada != null)
+        {
+            nuevaOleada.miPoolDeOrigen = poolElegido;
+            nuevaOleada.transform.position = puntoDeSpawn.position;
+            nuevaOleada.transform.rotation = puntoDeSpawn.rotation;
+        }
+    }
+
+    private void GenerarJefe()
+    {
+        if (poolDelJefe == null) return;
+
+        Jefe nuevoJefe = poolDelJefe.GetObject();
+
+        if (nuevoJefe != null)
+        {
+            nuevoJefe.miPoolDeOrigen = poolDelJefe; // Le decimos al jefe a qué pool volver
+            nuevoJefe.transform.position = puntoDeSpawn.position;
+            nuevoJefe.transform.rotation = puntoDeSpawn.rotation;
+        }
     }
 }

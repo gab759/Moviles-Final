@@ -214,10 +214,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bc3b40bb360dc04eba7181a7fb02ecf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  columnas: 5
-  distanciaX: 1.2
-  distanciaZ: 1
+  columnas: 7
+  distanciaX: 0.7
+  distanciaZ: 0.4
   generador: {fileID: 985304219}
+  hamburguesaPool: {fileID: 726067687}
   velocidadMovimiento: 1000
   sensibilidad: 0.43
   limiteIzquierdo: -4
@@ -324,8 +325,8 @@ Transform:
   m_GameObject: {fileID: 228033373}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.51, z: 0}
-  m_LocalScale: {x: 10, y: 1, z: 40}
+  m_LocalPosition: {x: 0, y: -1.51, z: 28}
+  m_LocalScale: {x: 10, y: 1, z: 69.44276}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -476,7 +477,7 @@ Transform:
   m_GameObject: {fileID: 651118038}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.02, y: -19.19, z: 13.5}
+  m_LocalPosition: {x: -5.775419, y: -19.19, z: 13.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -709,6 +710,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1973512270
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1973512272}
+  - component: {fileID: 1973512271}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1973512271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1973512270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69aa5a39e3933c54da90c7267047f7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vidaAdicionalParaJefe: 10
+--- !u!4 &1973512272
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1973512270}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.5310864, y: -31.459581, z: 74.460754}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2121440427
 GameObject:
   m_ObjectHideFlags: 0
@@ -719,10 +765,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2121440433}
   - component: {fileID: 2121440432}
-  - component: {fileID: 2121440431}
   - component: {fileID: 2121440430}
   - component: {fileID: 2121440429}
   - component: {fileID: 2121440428}
+  - component: {fileID: 2121440434}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -744,11 +790,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   listaDePoolsDeOleadas:
   - {fileID: 2121440432}
-  - {fileID: 2121440431}
   - {fileID: 2121440430}
   - {fileID: 2121440429}
   puntoDeSpawn: {fileID: 651118039}
   tiempoEntreOleadas: 5
+  poolDelJefe: {fileID: 2121440434}
+  oleadasParaElJefe: 7
 --- !u!114 &2121440429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -775,19 +822,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolConfigSO: {fileID: 11400000, guid: cce8c863a9dc97b49abcd3847ebd58b8, type: 2}
---- !u!114 &2121440431
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2121440427}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e69b03eb470f90a439491f463a4274f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolConfigSO: {fileID: 11400000, guid: 3dabeefb724ca054596fbdcbfe5eb98b, type: 2}
 --- !u!114 &2121440432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -817,6 +851,19 @@ Transform:
   - {fileID: 651118039}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2121440434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2121440427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50c8faccb499bce4283aec4ae4803f66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolConfigSO: {fileID: 11400000, guid: 3dabeefb724ca054596fbdcbfe5eb98b, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -827,3 +874,4 @@ SceneRoots:
   - {fileID: 985304220}
   - {fileID: 133077891}
   - {fileID: 2121440433}
+  - {fileID: 1973512272}

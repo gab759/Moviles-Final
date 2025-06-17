@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Dependencias")]
     [SerializeField] private GeneradorDeHamburguesas generador;
     private List<Hamburguesa> multitudDeHamburguesas = new List<Hamburguesa>();
+    [SerializeField] private HamburguesaPool hamburguesaPool;
     [Header("Configuración de Movimiento")]
     [SerializeField] private float velocidadMovimiento;
     [SerializeField] private float sensibilidad;
@@ -81,7 +82,63 @@ public class PlayerMovement : MonoBehaviour
                 other.gameObject.SetActive(false);
             }
         }
+        if (other.CompareTag("Jefe"))
+        {
+            JefeController jefe = other.GetComponentInParent<JefeController>();
+            if (jefe != null)
+            {
+                IniciarBatallaConJefe(jefe);
+                // Desactivamos el collider de detección para no iniciar la batalla múltiples veces.
+                other.enabled = false;
+            }
+        }
     }
+    // Dentro de PlayerMovement.cs
+
+    void IniciarBatallaConJefe(JefeController jefe)
+    {
+        int poderDelJugador = multitudDeHamburguesas.Count;
+        int vidaDelJefe = jefe.VidaActual;
+
+        Debug.Log("Iniciando batalla: Jugador(" + poderDelJugador + ") vs Jefe(" + vidaDelJefe + ")");
+
+        if (poderDelJugador >= vidaDelJefe)
+        {
+            // --- ¡GANAMOS! ---
+            RemoverMultiplesHamburguesas(vidaDelJefe);
+            jefe.DerrotarJefe();
+
+            // --- AÑADIMOS ESTA LÍNEA ---
+            // Le decimos al GameManager que incremente la dificultad para la próxima vez.
+            GameManager.Instance.vidaAdicionalParaJefe += 10;
+
+            Debug.Log("¡El próximo jefe será más fuerte! Vida adicional ahora: " + GameManager.Instance.vidaAdicionalParaJefe);
+        }
+        else
+        {
+            // --- PERDEMOS ---
+            RemoverMultiplesHamburguesas(poderDelJugador); // Sacrificamos todas nuestras hamburguesas.
+            Debug.Log("¡GAME OVER! No tienes suficientes hamburguesas.");
+            // Aquí iría tu lógica de fin de partida.
+        }
+    }
+
+    void RemoverMultiplesHamburguesas(int cantidad)
+    {
+        // Hacemos el bucle a la inversa para evitar problemas al eliminar de una lista que se está recorriendo.
+        for (int i = 0; i < cantidad; i++)
+        {
+            // Verificamos que queden hamburguesas en la lista
+            if (multitudDeHamburguesas.Count > 0)
+            {
+                // Tomamos la última hamburguesa de la lista
+                Hamburguesa hamburguesaARemover = multitudDeHamburguesas[multitudDeHamburguesas.Count - 1];
+                // Y la removemos. La función RemoverHamburguesa ya se encarga de devolverla al pool.
+                RemoverHamburguesa(hamburguesaARemover);
+            }
+        }
+    }
+
     private void AñadirHamburguesas(int cantidad)
     {
         for (int i = 0; i < cantidad; i++)
@@ -107,9 +164,8 @@ public class PlayerMovement : MonoBehaviour
         {
             int fila = i / columnas;
             int columna = i % columnas;
-
             float targetX = (columna * distanciaX) - offsetCentrado;
-            float targetZ = -fila * distanciaZ; 
+            float targetZ = -fila * distanciaZ;
 
             Vector3 posicionObjetivo = transform.position + new Vector3(targetX, 0, targetZ);
 
@@ -118,9 +174,17 @@ public class PlayerMovement : MonoBehaviour
     }
     public void RemoverHamburguesa(Hamburguesa hamburguesa)
     {
-        hamburguesa.gameObject.SetActive(false);
+        // 1. Le pedimos al pool que se encargue de esta hamburguesa.
+        // El pool la desactivará y la guardará para reciclarla.
+        hamburguesaPool.ReturnObject(hamburguesa);
 
-        multitudDeHamburguesas.Remove(hamburguesa);
+        // 2. La quitamos de nuestra lista de control.
+        if (multitudDeHamburguesas.Contains(hamburguesa))
+        {
+            multitudDeHamburguesas.Remove(hamburguesa);
+        }
+        // 3. La llamada a ReorganizarMultitud() en LateUpdate se encargará de rellenar el hueco.
+        // Por eso la hemos quitado de aquí.
 
     }
 }
