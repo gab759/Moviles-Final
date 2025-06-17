@@ -29,7 +29,7 @@ public class AuthUIManager : MonoBehaviour
     }
     public void OnClickInvitado()
     {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("game2");
     }
 
     public void OnClickLogin()

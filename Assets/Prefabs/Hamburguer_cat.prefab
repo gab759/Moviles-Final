@@ -100,6 +100,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hamburguer_cat
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 605c829bbdd701b4da64c6f243b88bbc, type: 3}
+      propertyPath: m_TagString
+      value: Hamburguesa
+      objectReference: {fileID: 0}
     - target: {fileID: 4323547947646153536, guid: 605c829bbdd701b4da64c6f243b88bbc, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
