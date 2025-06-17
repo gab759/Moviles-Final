@@ -52,6 +52,7 @@ public class FirebaseAuthManager : MonoBehaviour
             user = task.Result.User;
             Debug.Log("Sesión iniciada como: " + user.Email);
 
+            // Solo si todo fue bien
             SceneManager.LoadScene("Game");
 
         }, TaskScheduler.FromCurrentSynchronizationContext());

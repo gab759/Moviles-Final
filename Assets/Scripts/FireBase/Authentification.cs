@@ -14,7 +14,6 @@ public class Authentification : MonoBehaviour
     [SerializeField] private string password;
     [SerializeField] private TMP_InputField Correo;
     [SerializeField] private TMP_InputField Contra;
-    //[SerializeField] private GameObject PanelInicio;
 
     [Header("Bool Actions")]
     [SerializeField] private bool signUp = false;

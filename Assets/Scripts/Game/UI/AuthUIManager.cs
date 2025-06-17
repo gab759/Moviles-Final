@@ -23,7 +23,6 @@ public class AuthUIManager : MonoBehaviour
     {
         authManager = GetComponent<FirebaseAuthManager>();
 
-        // Mostrar solo el panel de inicio al comenzar
         panelInicio.SetActive(true);
         panelLogin.SetActive(false);
         panelRegistro.SetActive(false);
@@ -47,5 +46,13 @@ public class AuthUIManager : MonoBehaviour
         string password = registroPasswordInput.text;
 
         authManager.RegistrarCuenta(email, password);
+    }
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+    Application.Quit();
+#endif
     }
 }
