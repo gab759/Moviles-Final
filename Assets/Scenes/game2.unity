@@ -219,7 +219,7 @@ MonoBehaviour:
   distanciaZ: 0.4
   generador: {fileID: 985304219}
   hamburguesaPool: {fileID: 726067687}
-  velocidadMovimiento: 1000
+  velocidadMovimiento: 4
   sensibilidad: 0.43
   limiteIzquierdo: -4
   limiteDerecho: 4
