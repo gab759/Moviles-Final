@@ -9,6 +9,8 @@ TagManager:
   - Destroy
   - Moneda
   - Jefe
+  - Object
+  - Hamburguesa
   layers:
   - Default
   - TransparentFX

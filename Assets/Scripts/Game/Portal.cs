@@ -16,7 +16,7 @@ public class Portal : MonoBehaviour
         ConfigurarPortal();
     }
 
-    private void ConfigurarPortal()
+    public void ConfigurarPortal()
     {
         if (portalData == null)
         {
