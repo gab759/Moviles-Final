@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Oleada_TripleEnemy
   m_EditorClassIdentifier: 
   prefab: {fileID: 8958648886501208111, guid: 21790418e4c48cc4dad8a866cf0665a7, type: 3}
-  initialSize: 2
+  initialSize: 5

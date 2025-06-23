@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Hamburguesa_Config
   m_EditorClassIdentifier: 
   prefab: {fileID: 50205373701328733, guid: 2d41b12dbafa0114ca3b0438ad46dc65, type: 3}
-  initialSize: 50
+  initialSize: 30

@@ -6,27 +6,33 @@ public class PlayerMovement : MonoBehaviour
     [Header("Configuración de la Multitud")]
     [SerializeField] private int columnas = 5; 
     [SerializeField] private float distanciaX = 1.2f; 
-    [SerializeField] private float distanciaZ = 1.0f; 
+    [SerializeField] private float distanciaZ = 1.0f;
+    [SerializeField] private float desplazamientoZFormacion = -1.5f;
     [Header("Dependencias")]
     [SerializeField] private GeneradorDeHamburguesas generador;
     private List<Hamburguesa> multitudDeHamburguesas = new List<Hamburguesa>();
+    private int contadorVirtualHamburguesas = 0; 
+
     [SerializeField] private HamburguesaPool hamburguesaPool;
     [Header("Configuración de Movimiento")]
     [SerializeField] private float velocidadMovimiento;
     [SerializeField] private float sensibilidad;
     [SerializeField] private float limiteIzquierdo = -4f;
     [SerializeField] private float limiteDerecho = 4f;
-
+    [SerializeField] private UIManager uiManager;
     private Vector3 posicionInicialTouch;
     private float posicionXInicialPlayer;
+
     void Start()
     {
-        if (generador == null)
+        if (generador == null || hamburguesaPool == null || uiManager == null)
         {
-            Debug.LogError("El Generador no está asignado en PlayerMovement.", this);
+            Debug.LogError("Alguna dependencia no está asignada en PlayerMovement.", this);
         }
+        contadorVirtualHamburguesas = 1;
+        AñadirHamburguesasFisicas(1);
+        uiManager.ActualizarContadorHamburguesas(contadorVirtualHamburguesas);
 
-         AñadirHamburguesas(2); 
     }
     void Update()
     {
@@ -74,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
                 else if (tipo == PortalSO.PortalType.Multiplicacion)
                 {
                     Debug.Log("Multiplicar las hamburguesas por " + numero + "!");
-                    int cantidadActual = multitudDeHamburguesas.Count;
+                    int cantidadActual = contadorVirtualHamburguesas;
                     int cantidadAAnadir = cantidadActual * (numero - 1);
                     AñadirHamburguesas(cantidadAAnadir);
                 }
@@ -93,58 +99,81 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-    // Dentro de PlayerMovement.cs
-
     void IniciarBatallaConJefe(JefeController jefe)
     {
-        int poderDelJugador = multitudDeHamburguesas.Count;
+        int poderDelJugador = contadorVirtualHamburguesas;
         int vidaDelJefe = jefe.VidaActual;
-
-        Debug.Log("Iniciando batalla: Jugador(" + poderDelJugador + ") vs Jefe(" + vidaDelJefe + ")");
 
         if (poderDelJugador >= vidaDelJefe)
         {
-            // --- ¡GANAMOS! ---
             RemoverMultiplesHamburguesas(vidaDelJefe);
             jefe.DerrotarJefe();
-
-            // --- AÑADIMOS ESTA LÍNEA ---
-            // Le decimos al GameManager que incremente la dificultad para la próxima vez.
             GameManager.Instance.vidaAdicionalParaJefe += 10;
-
             Debug.Log("¡El próximo jefe será más fuerte! Vida adicional ahora: " + GameManager.Instance.vidaAdicionalParaJefe);
         }
         else
         {
-            // --- PERDEMOS ---
-            RemoverMultiplesHamburguesas(poderDelJugador); // Sacrificamos todas nuestras hamburguesas.
-            Debug.Log("¡GAME OVER! No tienes suficientes hamburguesas.");
-            // Aquí iría tu lógica de fin de partida.
+            RemoverMultiplesHamburguesas(poderDelJugador);
+            Debug.Log("¡GAME OVER!");
         }
     }
-
-    void RemoverMultiplesHamburguesas(int cantidad)
+    private void RemoverUnModeloFisico(Hamburguesa hamburguesa)
     {
-        // Hacemos el bucle a la inversa para evitar problemas al eliminar de una lista que se está recorriendo.
-        for (int i = 0; i < cantidad; i++)
+        if (hamburguesaPool != null && multitudDeHamburguesas.Contains(hamburguesa))
         {
-            // Verificamos que queden hamburguesas en la lista
+            hamburguesaPool.ReturnObject(hamburguesa);
+            multitudDeHamburguesas.Remove(hamburguesa);
+        }
+    }
+    void RemoverMultiplesHamburguesas(int cantidadDePoderAPerder)
+    {
+        contadorVirtualHamburguesas -= cantidadDePoderAPerder;
+        if (contadorVirtualHamburguesas < 0) contadorVirtualHamburguesas = 0;
+
+        int modelosFisicosObjetivo = Mathf.Min(contadorVirtualHamburguesas, 30);
+
+        int modelosARemover = multitudDeHamburguesas.Count - modelosFisicosObjetivo;
+
+        for (int i = 0; i < modelosARemover; i++)
+        {
             if (multitudDeHamburguesas.Count > 0)
             {
-                // Tomamos la última hamburguesa de la lista
-                Hamburguesa hamburguesaARemover = multitudDeHamburguesas[multitudDeHamburguesas.Count - 1];
-                // Y la removemos. La función RemoverHamburguesa ya se encarga de devolverla al pool.
-                RemoverHamburguesa(hamburguesaARemover);
+                RemoverUnModeloFisico(multitudDeHamburguesas[multitudDeHamburguesas.Count - 1]);
             }
+        }
+
+        if (uiManager != null)
+        {
+            uiManager.ActualizarContadorHamburguesas(contadorVirtualHamburguesas);
+        }
+        if (contadorVirtualHamburguesas <= 0)
+        {
+            GameManager.Instance.FinDePartida();
         }
     }
 
     private void AñadirHamburguesas(int cantidad)
     {
+        contadorVirtualHamburguesas += cantidad;
+
+        AñadirHamburguesasFisicas(cantidad);
+
+        if (uiManager != null)
+        {
+            uiManager.ActualizarContadorHamburguesas(contadorVirtualHamburguesas);
+        }
+    }
+    private void AñadirHamburguesasFisicas(int cantidad)
+    {
         for (int i = 0; i < cantidad; i++)
         {
-            Vector3 posicionSpawn = transform.position + new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-2f, 0f));
+            if (multitudDeHamburguesas.Count >= 30)
+            {
+                Debug.Log("Límite visual de hamburguesas alcanzado.");
+                break;
+            }
 
+            Vector3 posicionSpawn = transform.position;
             Hamburguesa nuevaHamburguesa = generador.GenerarHamburguesa(posicionSpawn);
 
             if (nuevaHamburguesa != null)
@@ -152,9 +181,11 @@ public class PlayerMovement : MonoBehaviour
                 nuevaHamburguesa.crowdController = this;
                 multitudDeHamburguesas.Add(nuevaHamburguesa);
             }
+            else
+            {
+                break;
+            }
         }
-        
-        Debug.Log("Total de hamburguesas ahora: " + multitudDeHamburguesas.Count);
     }
     void ReorganizarMultitud()
     {
@@ -167,24 +198,22 @@ public class PlayerMovement : MonoBehaviour
             float targetX = (columna * distanciaX) - offsetCentrado;
             float targetZ = -fila * distanciaZ;
 
-            Vector3 posicionObjetivo = transform.position + new Vector3(targetX, 0, targetZ);
-
+            Vector3 posicionObjetivo = transform.position + new Vector3(targetX, 0, targetZ + desplazamientoZFormacion);
             multitudDeHamburguesas[i].MoverAPosicion(posicionObjetivo);
         }
     }
     public void RemoverHamburguesa(Hamburguesa hamburguesa)
     {
-        // 1. Le pedimos al pool que se encargue de esta hamburguesa.
-        // El pool la desactivará y la guardará para reciclarla.
-        hamburguesaPool.ReturnObject(hamburguesa);
+        contadorVirtualHamburguesas--; 
+        RemoverUnModeloFisico(hamburguesa); 
 
-        // 2. La quitamos de nuestra lista de control.
-        if (multitudDeHamburguesas.Contains(hamburguesa))
+        if (uiManager != null)
         {
-            multitudDeHamburguesas.Remove(hamburguesa);
+            uiManager.ActualizarContadorHamburguesas(contadorVirtualHamburguesas);
         }
-        // 3. La llamada a ReorganizarMultitud() en LateUpdate se encargará de rellenar el hueco.
-        // Por eso la hemos quitado de aquí.
-
+        if (contadorVirtualHamburguesas <= 0)
+        {
+            GameManager.Instance.FinDePartida();
+        }
     }
 }

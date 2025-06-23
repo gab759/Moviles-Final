@@ -3,7 +3,7 @@ using System.Collections;
 
 public class RowSpawner : MonoBehaviour
 {
-    [Header("Pool")]
+  /*  [Header("Pool")]
     [SerializeField] private StaticObjectPooling pool;
 
     [Header("Grid Settings")]
@@ -107,5 +107,5 @@ public class RowSpawner : MonoBehaviour
     {
         if (spawnRoutine != null)
             StopCoroutine(spawnRoutine);
-    }
+    }*/
 }

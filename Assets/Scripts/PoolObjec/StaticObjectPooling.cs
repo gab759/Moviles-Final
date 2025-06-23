@@ -1,42 +1,41 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class StaticObjectPooling : MonoBehaviour
+public class StaticObjectPooling<T> : MonoBehaviour where T : PoolObject
 {
     [SerializeField] private PoolConfigSO config;
-    private List<PoolObject> pool = new List<PoolObject>();
+
+    private Queue<T> availableObjects = new Queue<T>();
 
     private void Awake()
     {
         for (int i = 0; i < config.initialSize; i++)
         {
-            PoolObject obj = Instantiate(config.prefab, transform);
-            obj.OnDeactivate();
-            pool.Add(obj);
+            T obj = Instantiate(config.prefab as T, transform);
+            obj.OnDeactivate(); // Lo desactivamos
+            availableObjects.Enqueue(obj); // Y lo ponemos en la cola
         }
     }
 
-    public PoolObject GetObject()
+    public T GetObject()
     {
-        foreach (var obj in pool)
+        if (availableObjects.Count == 0)
         {
-            if (!obj.gameObject.activeInHierarchy)
-            {
-                obj.OnActivate();
-                return obj;
-            }
+            Debug.Log("No hay objetos inactivos disponibles en el pool estático.");
+            return null;
         }
 
-        Debug.Log("No hay objetos inactivos disponibles en el pool estático.");
-        return null;
+        T obj = availableObjects.Dequeue();
+
+        obj.OnActivate();
+
+        return obj;
     }
 
-    public void ReturnObject(PoolObject obj)
+    public void ReturnObject(T obj)
     {
-        if (pool.Contains(obj))
-            obj.OnDeactivate();
-        else
-            Debug.LogWarning("Objeto no pertenece a este pool.");
+        obj.OnDeactivate();
+
+        availableObjects.Enqueue(obj);
     }
 }
-

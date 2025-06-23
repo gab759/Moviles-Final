@@ -6,11 +6,31 @@ public class UIManager : MonoBehaviour
     [Header("Elementos de UI")]
     [SerializeField] private TextMeshProUGUI textoPuntaje;
     [SerializeField] private GameObject panelPausa;
+    [SerializeField] private TextMeshPro textoContadorHamburguesas;
+    [SerializeField] private GameObject panelFinDePartida;
+    [Header("Textos de Fin de Partida")]
+    [SerializeField] private TextMeshProUGUI textoPuntajeFinal;
+    [SerializeField] private GameObject objetoMensajeNuevoRecord;
     void Update()
     {
         if (textoPuntaje != null)
         {
             textoPuntaje.text = "Puntos: " + GameManager.Instance.puntaje;
+        }
+    }
+    public void MostrarPanelFinDePartida(int puntajeFinal, bool esNuevoRecord)
+    {
+        panelFinDePartida.SetActive(true); // Mostramos el panel
+        textoPuntajeFinal.text = "Puntaje Final: " + puntajeFinal.ToString();
+
+        // Mostramos el mensaje de "¡NUEVO RÉCORD!" solo si es verdad
+        objetoMensajeNuevoRecord.SetActive(esNuevoRecord);
+    }
+    public void ActualizarContadorHamburguesas(int cantidad)
+    {
+        if (textoContadorHamburguesas != null)
+        {
+            textoContadorHamburguesas.text = cantidad.ToString();
         }
     }
     public void OnClick_Pausar()

@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Oleada_PortalIzquierdoEnemyDerecho
   m_EditorClassIdentifier: 
   prefab: {fileID: -2622948488600293705, guid: 48f14f23d76176e45b88d85927e47eba, type: 3}
-  initialSize: 2
+  initialSize: 6

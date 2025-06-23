@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90f381940e45deb4093b6bb813f7d1c9, type: 3}
-  m_Name: Oleada_DoblePortal_confi
+  m_Name: FullMoney
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1714298796203731527, guid: 45fd71f7a0b1bf3488e484a058e98530, type: 3}
-  initialSize: 5
+  prefab: {fileID: -2622948488600293705, guid: ab6dbecb0c35b7440a7ac492e729041d, type: 3}
+  initialSize: 7

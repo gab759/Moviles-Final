@@ -3,8 +3,8 @@ using System.Collections;
 
 public class SpawnerObstacle : MonoBehaviour
 {
-    [Header("Pool")]
-    [SerializeField] private StaticObjectPooling pool;
+  /*  [Header("Pool")]
+   // [SerializeField] private StaticObjectPooling pool ;
 
     [Header("Grid Settings")]
     [SerializeField] private int columnCount = 10;
@@ -111,5 +111,5 @@ public class SpawnerObstacle : MonoBehaviour
     {
         if (spawnRoutine != null)
             StopCoroutine(spawnRoutine);
-    }
+    }*/
 }

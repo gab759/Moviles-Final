@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HamburguesaPool : DynamicObjectPooling<Hamburguesa>
+public class HamburguesaPool : StaticObjectPooling<Hamburguesa>
 {
 
 }
