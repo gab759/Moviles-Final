@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f48ac90a9e334a4faff7c90c4a9c30a, type: 3}
+  m_Name: ScoreDatabase
+  m_EditorClassIdentifier: 
+  topScores:
+  - {fileID: 11400000, guid: dd7ad62808fbfae43a57065e61ef1023, type: 2}
+  - {fileID: 11400000, guid: 073e36ae64f7e7a43814eea1e7723024, type: 2}
+  - {fileID: 11400000, guid: 39f0c1511bfee6a41a7578ac208b385b, type: 2}
+  - {fileID: 11400000, guid: 5a850fc3a49dc844085653240b2b8d13, type: 2}
+  - {fileID: 11400000, guid: 46bed3a58f5e2b34186182c4db9ffc9a, type: 2}

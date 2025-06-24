@@ -1,73 +1,96 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
-public class GameManager : MonoBehaviour
+public class GameManager : SingletonNotPersistent<GameManager>
 {
-    public static GameManager Instance { get; private set; }
+
+    [Header("Juego")]
     public int vidaAdicionalParaJefe = 0;
     public int puntaje = 0;
-    public UIManager uiManager;
     private bool juegoTerminado = false;
     public bool juegoEnPausa { get; private set; } = false;
+
+    [Header("Referencias")]
+    public UIManager uiManager;
+    public FirestoreService firestoreService;
+
+    [Header("Ranking UI")]
+    [SerializeField] private GameObject panelResults;
+    [SerializeField] private TMP_Text[] resultTexts;
+    [SerializeField] private ScoreDatabaseSO database;
 
     private void Awake()
     {
         Time.timeScale = 1f;
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-            
-        }
+        ActualizarRankingUI();
     }
+
     public void FinDePartida()
     {
         if (juegoTerminado) return;
         juegoTerminado = true;
         Time.timeScale = 0f;
 
-        // 1. Cargamos el puntaje máximo guardado localmente.
-        // La llave es "PuntajeMaximo". Si no existe, por defecto nos dará 0.
         int puntajeMaximoGuardado = PlayerPrefs.GetInt("PuntajeMaximo", 0);
-
-        // 2. Comparamos el puntaje de esta partida con el máximo guardado.
         bool esNuevoRecord = puntaje > puntajeMaximoGuardado;
 
         if (esNuevoRecord)
         {
-            // 3. Si hay un nuevo récord, lo guardamos en el dispositivo con la misma llave.
-            Debug.Log("¡Nuevo Récord Local! Guardando puntaje: " + puntaje);
             PlayerPrefs.SetInt("PuntajeMaximo", puntaje);
-            PlayerPrefs.Save(); // Forzamos el guardado inmediato en el disco.
+            PlayerPrefs.Save();
         }
 
-        // 4. Le pedimos al UIManager que muestre el panel final.
-        // El UIManager no necesita saber de dónde vino la información, solo la muestra.
-        if (uiManager != null)
+        if (firestoreService != null)
         {
-            uiManager.MostrarPanelFinDePartida(puntaje, esNuevoRecord);
+            firestoreService.UploadPlayerScore(puntaje);
         }
+
+        uiManager?.MostrarPanelFinDePartida(puntaje, esNuevoRecord);
     }
+
     public void AnadirPuntos(int puntosAGanar)
     {
         puntaje += puntosAGanar;
     }
+
     public void PausarJuego()
     {
         juegoEnPausa = true;
         Time.timeScale = 0f;
     }
+
     public void ReanudarJuego()
     {
         juegoEnPausa = false;
-        Time.timeScale = 1f; 
+        Time.timeScale = 1f;
     }
+
     public void ReiniciarJuego()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("game2");
+    }
+
+    // ======= RANKING UI =======
+
+    public void MostrarResultados()
+    {
+        panelResults.SetActive(true);
+        ActualizarRankingUI();
+    }
+
+    private void ActualizarRankingUI()
+    {
+        for (int i = 0; i < database.topScores.Length; i++)
+        {
+            var entry = database.topScores[i];
+            resultTexts[i].text = $"{i + 1}. {entry.score}";
+        }
+    }
+
+    public void CerrarResultados()
+    {
+        panelResults.SetActive(false);
     }
 }
