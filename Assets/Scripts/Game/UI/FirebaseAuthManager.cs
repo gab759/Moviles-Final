@@ -10,6 +10,8 @@ public class FirebaseAuthManager : MonoBehaviour
     public AuthUIManager uiManager;
     private void Start()
     {
+        Debug.Log("Initializing FirebaseAuth");
+
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
         {
             if (task.Result == DependencyStatus.Available)
