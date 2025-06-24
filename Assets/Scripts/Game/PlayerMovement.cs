@@ -210,6 +210,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void ReorganizarMultitud()
     {
+        Vector3 centroDeLaFormacion = nodosDeSeguimiento[nodosDeSeguimiento.Length - 1].position;
         float offsetCentrado = (columnas - 1) * distanciaX / 2;
 
         for (int i = 0; i < multitudDeHamburguesas.Count; i++)
