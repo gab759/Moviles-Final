@@ -16,6 +16,12 @@ public class FirebaseAuthManager : MonoBehaviour
             {
                 auth = FirebaseAuth.DefaultInstance;
                 Debug.Log("Firebase Auth inicializado correctamente.");
+
+                if (auth.CurrentUser != null)
+                {
+                    Debug.Log("Usuario ya autenticado: " + auth.CurrentUser.Email);
+                    SceneManager.LoadScene("game2");
+                }
             }
             else
             {
@@ -24,7 +30,15 @@ public class FirebaseAuthManager : MonoBehaviour
             }
         });
     }
+    private void OnEnable()
+    {
+        GameManager.OnSolicitarCerrarSesion += CerrarSesion;
+    }
 
+    private void OnDisable()
+    {
+        //GameManager.OnSolicitarCerrarSesion -= CerrarSesion;
+    }
     public void RegistrarCuenta(string email, string password)
     {
         auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
@@ -58,5 +72,13 @@ public class FirebaseAuthManager : MonoBehaviour
 
             SceneManager.LoadScene("game2");
         }, TaskScheduler.FromCurrentSynchronizationContext());
+    }
+    private void CerrarSesion()
+    {
+        Debug.Log("Se solicitó cerrar sesión");
+
+        auth.SignOut();
+            Debug.Log("Sesión cerrada correctamente.");
+            SceneManager.LoadScene("Login");
     }
 }

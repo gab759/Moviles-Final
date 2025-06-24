@@ -15,17 +15,16 @@ public class GameManager : SingletonNotPersistent<GameManager>
     public UIManager uiManager;
     public FirestoreService firestoreService;
 
-    [Header("Ranking UI")]
+    [Header("Ranking UI")]  
     [SerializeField] private GameObject panelResults;
     [SerializeField] private TMP_Text[] resultTexts;
     [SerializeField] private ScoreDatabaseSO database;
-
-    private void Awake()
+    public static event System.Action OnSolicitarCerrarSesion;
+    private void Start()
     {
         Time.timeScale = 1f;
         ActualizarRankingUI();
     }
-
     public void FinDePartida()
     {
         if (juegoTerminado) return;
@@ -48,7 +47,10 @@ public class GameManager : SingletonNotPersistent<GameManager>
 
         uiManager?.MostrarPanelFinDePartida(puntaje, esNuevoRecord);
     }
-
+    public void BotonCerrarSesion()
+    {
+        OnSolicitarCerrarSesion?.Invoke();
+    }
     public void AnadirPuntos(int puntosAGanar)
     {
         puntaje += puntosAGanar;
@@ -87,6 +89,7 @@ public class GameManager : SingletonNotPersistent<GameManager>
             var entry = database.topScores[i];
             resultTexts[i].text = $"{i + 1}. {entry.score}";
         }
+        firestoreService.UploadPlayerScore(puntaje);
     }
 
     public void CerrarResultados()

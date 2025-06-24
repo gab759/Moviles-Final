@@ -20,8 +20,9 @@ public class MenuAnimator : MonoBehaviour
     private Vector2 posSubtituloOriginal;
     private Vector2[] posBotonesOriginal;
 
-    private void Awake()
+    private void Start()
     {
+        Time.timeScale = 1f;
         posTituloOriginal = titulo.anchoredPosition;
         posSubtituloOriginal = subtitulo.anchoredPosition;
 
@@ -30,10 +31,6 @@ public class MenuAnimator : MonoBehaviour
         {
             posBotonesOriginal[i] = botones[i].anchoredPosition;
         }
-    }
-
-    private void OnEnable()
-    {
         AnimarEntrada();
     }
 
