@@ -28,12 +28,12 @@ public class Portal : MonoBehaviour
 
         if (tipoActual == PortalSO.PortalType.Suma)
         {
-            numeroActual = Random.Range(1, 11) * 5; 
+            numeroActual = Random.Range(1, 8) * 5; 
             textoDelPortal.text = "+" + numeroActual;
         }
         else if (tipoActual == PortalSO.PortalType.Multiplicacion)
         {
-            numeroActual = Random.Range(2, 5);
+            numeroActual = Random.Range(2, 3);
             textoDelPortal.text = "x" + numeroActual;
         }
     }

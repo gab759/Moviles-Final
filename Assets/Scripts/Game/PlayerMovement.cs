@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private Transform[] nodosDeSeguimiento;
     [SerializeField] private float velocidadSeguimientoNodos = 15f;
+    [SerializeField] private float tiempoDeRegeneracion = 1f;
     void Start()
     {
         if (generador == null || hamburguesaPool == null || uiManager == null)
@@ -32,7 +34,8 @@ public class PlayerMovement : MonoBehaviour
             Debug.LogError("Alguna dependencia no está asignada en PlayerMovement.", this);
         }
         contadorVirtualHamburguesas = 1;
-        AñadirHamburguesasFisicas(1);
+        //AñadirHamburguesasFisicas(1);
+        StartCoroutine(RegenerarEscudoCoroutine());
         uiManager.ActualizarContadorHamburguesas(contadorVirtualHamburguesas);
 
     }
@@ -74,6 +77,26 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         ReorganizarMultitud();
+    }
+    private IEnumerator RegenerarEscudoCoroutine()
+    {
+        // Este bucle se ejecutará infinitamente en segundo plano.
+        while (true)
+        {
+            // 1. Espera la cantidad de segundos que definimos.
+            yield return new WaitForSeconds(tiempoDeRegeneracion);
+
+            // 2. Después de esperar, comprueba si necesita regenerar una hamburguesa.
+            // La condición es: ¿Tenemos menos modelos físicos de los que nuestro poder virtual nos permite,
+            // Y además, no hemos alcanzado el límite visual de 30?
+            if (multitudDeHamburguesas.Count < contadorVirtualHamburguesas && multitudDeHamburguesas.Count < 30)
+            {
+                Debug.Log("Regenerando una hamburguesa física...");
+
+                // 3. Si se cumple, añade UNA hamburguesa física.
+                AñadirHamburguesasFisicas(1);
+            }
+        }
     }
     private void Mover(float deltaX)
     {
