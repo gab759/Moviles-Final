@@ -23,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 posicionInicialTouch;
     private float posicionXInicialPlayer;
 
+    [SerializeField] private Transform[] nodosDeSeguimiento;
+    [SerializeField] private float velocidadSeguimientoNodos = 15f;
     void Start()
     {
         if (generador == null || hamburguesaPool == null || uiManager == null)
@@ -52,6 +54,25 @@ public class PlayerMovement : MonoBehaviour
     }
     void LateUpdate()
     {
+        if (nodosDeSeguimiento.Length > 0)
+        {
+            // El primer nodo (Nodo_0) sigue directamente al PlayerController
+            nodosDeSeguimiento[0].position = Vector3.Lerp(
+                nodosDeSeguimiento[0].position,
+                transform.position,
+                velocidadSeguimientoNodos * Time.deltaTime
+            );
+
+            // El resto de los nodos se siguen en cadena
+            for (int i = 1; i < nodosDeSeguimiento.Length; i++)
+            {
+                nodosDeSeguimiento[i].position = Vector3.Lerp(
+                    nodosDeSeguimiento[i].position,
+                    nodosDeSeguimiento[i - 1].position, // Sigue al nodo anterior
+                    velocidadSeguimientoNodos * Time.deltaTime
+                );
+            }
+        }
         ReorganizarMultitud();
     }
     private void Mover(float deltaX)
