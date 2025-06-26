@@ -20,6 +20,14 @@ public class Moneda : PoolObject // Hereda de PoolObject por si se poolea en el 
             }
             gameObject.SetActive(false); // Simplemente se desactiva. La Oleada la reactivará.
         }
+        if (other.CompareTag("PlayerL"))
+        {
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.AnadirPuntos(valor);
+            }
+            gameObject.SetActive(false); // Simplemente se desactiva. La Oleada la reactivará.
+        }
     }
 }
 

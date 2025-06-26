@@ -77,10 +77,11 @@ public class FirebaseAuthManager : MonoBehaviour
     }
     private void CerrarSesion()
     {
+        SceneManager.LoadScene("Login");
         Debug.Log("Se solicitó cerrar sesión");
 
         auth.SignOut();
             Debug.Log("Sesión cerrada correctamente.");
-            SceneManager.LoadScene("Login");
+            
     }
 }

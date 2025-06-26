@@ -11,6 +11,7 @@ TagManager:
   - Jefe
   - Object
   - Hamburguesa
+  - PlayerL
   layers:
   - Default
   - TransparentFX
