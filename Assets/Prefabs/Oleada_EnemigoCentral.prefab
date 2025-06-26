@@ -354,7 +354,8 @@ PrefabInstance:
       value: Sandia
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7722817916004928829, guid: 1baa69f6530640446a88415eaec7e5d7, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1baa69f6530640446a88415eaec7e5d7, type: 3}
@@ -428,7 +429,8 @@ PrefabInstance:
       value: Sandia (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7722817916004928829, guid: 1baa69f6530640446a88415eaec7e5d7, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1baa69f6530640446a88415eaec7e5d7, type: 3}
@@ -502,7 +504,8 @@ PrefabInstance:
       value: Sandia (2)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7722817916004928829, guid: 1baa69f6530640446a88415eaec7e5d7, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1baa69f6530640446a88415eaec7e5d7, type: 3}
