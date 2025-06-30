@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private Transform[] nodosDeSeguimiento;
     [SerializeField] private float velocidadSeguimientoNodos = 15f;
-    [SerializeField] private float tiempoDeRegeneracion = 1f;
+    [SerializeField] private float tiempoDeRegeneracion = 0.1f;
     void Start()
     {
         if (generador == null || hamburguesaPool == null || uiManager == null)
