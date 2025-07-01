@@ -8,6 +8,7 @@ public class FirebaseAuthManager : MonoBehaviour
     private FirebaseAuth auth;
     private FirebaseUser user;
     public AuthUIManager uiManager;
+    public ScoreDatabaseSO database;
     private void Start()
     {
         Debug.Log("Initializing FirebaseAuth");
@@ -77,6 +78,14 @@ public class FirebaseAuthManager : MonoBehaviour
     }
     private void CerrarSesion()
     {
+        if (database != null)
+        {
+            for (int i = 0; i < database.topScores.Length; i++)
+            {
+                database.topScores[i].score = 0;
+            }
+            Debug.Log("Ranking reiniciado al cerrar sesión.");
+        }
         SceneManager.LoadScene("Login");
         Debug.Log("Se solicitó cerrar sesión");
 

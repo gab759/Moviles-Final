@@ -1,22 +1,22 @@
 {
   "project_info": {
-    "project_number": "683447445464",
-    "firebase_url": "https://moviles-final-cc806-default-rtdb.firebaseio.com",
-    "project_id": "moviles-final-cc806",
-    "storage_bucket": "moviles-final-cc806.firebasestorage.app"
+    "project_number": "981275966029",
+    "firebase_url": "https://burger-rush-79ef4-default-rtdb.firebaseio.com",
+    "project_id": "burger-rush-79ef4",
+    "storage_bucket": "burger-rush-79ef4.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:683447445464:android:bac1dcdee59b116fd834ad",
+        "mobilesdk_app_id": "1:981275966029:android:228240cd07c500776ffa04",
         "android_client_info": {
-          "package_name": "com.CordovaVega.MovilesFinal"
+          "package_name": "com.CordovaVega.BurgerRush"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBTlDsOdPuIfmvZhpzzol_UBCk9T542MvY"
+          "current_key": "AIzaSyDPZoXfKVAVkpyEdpqF7TwcqbTJL9fD5aw"
         }
       ],
       "services": {

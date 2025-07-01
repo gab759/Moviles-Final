@@ -2229,6 +2229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiManager: {fileID: 529765659}
+  database: {fileID: 11400000, guid: 6f4cb7d8a832f744a9b9df7a1f7c3736, type: 2}
 --- !u!1 &574282087
 GameObject:
   m_ObjectHideFlags: 0
@@ -3749,59 +3750,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1137716367}
   m_CullTransparentMesh: 1
---- !u!1 &1189939700
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1189939702}
-  - component: {fileID: 1189939701}
-  m_Layer: 0
-  m_Name: Authentification
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1189939701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1189939700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df990dcaf3ebe474ba2f6bb570686821, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  email: eduardo123@gmail.com
-  password: 123456
-  Correo: {fileID: 0}
-  Contra: {fileID: 0}
-  signUp: 1
-  signIn: 0
-  OnLogInSuccesful:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!4 &1189939702
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1189939700}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 207.20703, y: -68.46203, z: 85.728584}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1238615249
 GameObject:
   m_ObjectHideFlags: 0
@@ -6471,7 +6419,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 946148132}
   - {fileID: 1981931049}
-  - {fileID: 1189939702}
   - {fileID: 668199409}
   - {fileID: 262634382}
   - {fileID: 529765660}
