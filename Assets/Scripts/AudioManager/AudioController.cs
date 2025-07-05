@@ -11,7 +11,7 @@ public class AudioController : MonoBehaviour
     public float GetMasterVolume() => masterVolumeConfig.volume;
     public float GetMusicVolume() => musicVolumeConfig.volume;
     public float GetSFXVolume() => sfxVolumeConfig.volume;
-    void Awake()
+    void Start()
     {
         ApplyVolumes();
     }
